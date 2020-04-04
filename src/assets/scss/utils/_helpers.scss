@@ -1,0 +1,105 @@
+.container {
+  width: 100%;
+  height: auto;
+}
+.text-center {
+  text-align: center;
+}
+.text-left {
+  text-align-last: left;
+}
+.text-right {
+  text-align: right;
+}
+.hide {
+  overflow: hidden;
+}
+.position-relative {
+  position: relative;
+}
+.position-absolute {
+  position: absolute;
+}
+.position-fixed {
+  position: fixed;
+}
+.border-radius {
+  border-radius: 10px;
+}
+.border-circle {
+  border-radius: 50%;
+}
+.float-left {
+  float: left;
+}
+.float-right {
+  float: right;
+}
+.ds-inline-block {
+  display: inline-block;
+}
+.ds-flex {
+  display: flex;
+}
+.m-auto {
+  margin: 0 auto;
+}
+.mt-20 {
+  margin-top: 20px;
+}
+.mt-25 {
+  margin-top: 25px;
+}
+.mt-30 {
+  margin-top: 30px;
+}
+.mt-50 {
+  margin-top: 50px;
+}
+.mt-100 {
+  margin-top: 100px;
+}
+.ml-10 {
+  margin-left: 10px;
+}
+.ml-20 {
+  margin-left: 20px;
+}
+.ml-30 {
+  margin-left: 30px;
+}
+.ml-50 {
+  margin-left: 50px;
+}
+.mr-5 {
+  margin-right: 5px;
+}
+.mr-20 {
+  margin-right: 20px;
+}
+.mr-25 {
+  margin-right: 25px;
+}
+.mr-50 {
+  margin-right: 50px;
+}
+.pl-50 {
+  padding-left: 50px;
+}
+.ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.text-break {
+  color: $color-break !important;
+}
+.bg-work {
+  background-color: $color-primary !important;
+}
+.bg-break {
+  background-color: $color-break !important;
+}
+.border-break {
+  border-color: $color-break !important;
+}
