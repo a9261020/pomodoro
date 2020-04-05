@@ -1,7 +1,5 @@
 <template>
-  <div>
-    Analysis.vue
-  </div>
+  <div class="page">Analysis.vue</div>
 </template>
 
 <script>

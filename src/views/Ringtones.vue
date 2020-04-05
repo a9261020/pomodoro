@@ -1,7 +1,5 @@
 <template>
-  <div>
-    Ringtones.vue
-  </div>
+  <div class="page">Ringtones.vue</div>
 </template>
 
 <script>
