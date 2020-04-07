@@ -1,0 +1,20 @@
+.btn {
+  width: auto;
+  height: auto;
+  padding: 5px 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid $color-primary;
+  background-color: transparent;
+  color: $color-primary;
+  cursor: pointer;
+  //   點擊之後把底線去除
+  &:focus {
+    outline: none;
+  }
+}
+
+.btn-active {
+  color: $color-dark;
+  background-color: $color-primary;
+}

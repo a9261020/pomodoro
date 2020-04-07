@@ -1,5 +1,7 @@
-@import "./utils/variable.scss";
-@import "./utils/helpers.scss";
-@import "normalize.scss";
-@import "./layout/_nav.scss";
-@import "./layout/_page.scss";
+@import "./utils/variable";
+@import "./utils/helpers";
+@import "normalize";
+@import "./components/_button";
+@import "./layout/_nav";
+@import "./layout/_page";
+@import "./layout/_tasklist";
