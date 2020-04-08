@@ -10,6 +10,9 @@ const tasklist = {
     deleteTask(context, id) {
       context.commit("DELETETASK", id);
     },
+    editTask(context, afterEdit) {
+      context.commit("EDITTASK", afterEdit);
+    },
   },
   mutations: {
     ADDTASK(state, task) {
@@ -18,6 +21,14 @@ const tasklist = {
     },
     DELETETASK(state, id) {
       state.tasklist.splice(state.tasklist.indexOf(id), 1);
+      localStorage.setItem("tasklist", JSON.stringify(state.tasklist));
+    },
+    EDITTASK(state, afterEdit) {
+      state.tasklist.forEach((task) => {
+        if (task.id === afterEdit.id) {
+          task.taskTitle = afterEdit.afterEdit;
+        }
+      });
       localStorage.setItem("tasklist", JSON.stringify(state.tasklist));
     },
     GETFROMLOCAL(state) {

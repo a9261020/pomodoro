@@ -35,15 +35,36 @@
       <ul>
         <li
           class="taskList-item mb-20"
-          v-for="(task, index) in filterTasklist"
-          :key="index"
+          v-for="task in filterTasklist"
+          :key="task.id"
         >
           <input type="checkbox" />
-          <p class="ds-inline-block taskList-item-context">
+          <p
+            class="ds-inline-block taskList-item-context"
+            :class="{ taskCompleted: isCompleted === true }"
+            v-if="!task.isEditing"
+          >
             {{ task.taskTitle }}
           </p>
+
+          <input
+            type="text"
+            class="ds-inline-block item-editing"
+            :placeholder="task.taskTitle"
+            @blur="cancelEdit(task)"
+            @keyup.esc="cancelEdit(task)"
+            @keyup.enter="doneEdit(task)"
+            v-focus
+            v-model="afterEdit"
+            v-else
+          />
+
           <i
-            class="taskList-item-delete fas fa-trash-alt"
+            class="taskList-item-icon fas fa-edit ml-20"
+            @click="editTask(task)"
+          ></i>
+          <i
+            class="taskList-item-icon fas fa-trash-alt ml-20"
             @click="deleteTask(task.id)"
           ></i>
         </li>
@@ -60,7 +81,16 @@ export default {
     return {
       taskTitle: "",
       isCompleted: false,
+      afterEdit: "",
     };
+  },
+  directives: {
+    focus: {
+      // directive definition
+      inserted: function(el) {
+        el.focus();
+      },
+    },
   },
   computed: {
     filterTasklist() {
@@ -79,14 +109,29 @@ export default {
       const timestamp = Math.floor(dateTime / 1000);
       const newTask = {
         taskTitle: this.taskTitle,
-        isCompleted: true,
+        isCompleted: false,
         id: timestamp,
+        isEditing: false,
       };
       this.$store.dispatch("tasklistModule/addTask", newTask);
       this.taskTitle = "";
     },
     deleteTask(id) {
       this.$store.dispatch("tasklistModule/deleteTask", id);
+    },
+    editTask(task) {
+      task.isEditing = true;
+      this.afterEdit = task.taskTitle;
+    },
+    doneEdit(task) {
+      task.isEditing = false;
+      this.$store.dispatch("tasklistModule/editTask", {
+        id: task.id,
+        afterEdit: this.afterEdit,
+      });
+    },
+    cancelEdit(task) {
+      task.isEditing = false;
     },
     getTaskFromLocal() {
       this.$store.commit("tasklistModule/GETFROMLOCAL");
