@@ -1,0 +1,65 @@
+.TimeClock {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 45%;
+  min-height: 100vh;
+  padding: 73px 0 0 0;
+  header {
+    color: $color-primary;
+    font-size: 40px;
+  }
+
+  .card:nth-child(1) svg circle:nth-child(2) {
+    stroke-dashoffset: calc(440 - (440 * 90) / 100);
+    stroke: red;
+    transform: rotate(-10);
+  }
+
+  .percent {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    box-shadow: inset 0 0 50px #000;
+    background-color: $color-dark2;
+    z-index: 1000;
+
+    svg {
+      position: relative;
+      width: 150px;
+      height: 150px;
+      z-index: 1000;
+      circle {
+        width: 100%;
+        height: 100%;
+        fill: none;
+        stroke: $color-primary;
+        stroke-width: 10;
+        stroke-linecap: round;
+        transform: translate(5px, 5px);
+      }
+      circle:nth-child(2) {
+        stroke-dasharray: 440;
+        stroke-dashoffset: 440;
+      }
+    }
+
+    .number {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+      h2 {
+        color: $color-light;
+        font-weight: 700;
+        font-size: 40px;
+      }
+    }
+  }
+}

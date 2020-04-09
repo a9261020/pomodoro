@@ -38,8 +38,13 @@
           v-for="task in filterTasklist"
           :key="task.id"
         >
-          <input type="checkbox" />
+          <div
+            class="ds-inline-block taskList-item-check"
+            :class="{ checked: isChecked === task.id }"
+            @click="checked(task)"
+          ></div>
           <p
+            @click="checked(task)"
             class="ds-inline-block taskList-item-context"
             :class="{ taskCompleted: isCompleted === true }"
             v-if="!task.isEditing"
@@ -82,6 +87,7 @@ export default {
       taskTitle: "",
       isCompleted: false,
       afterEdit: "",
+      isChecked: "",
     };
   },
   directives: {
@@ -109,12 +115,15 @@ export default {
       const timestamp = Math.floor(dateTime / 1000);
       const newTask = {
         taskTitle: this.taskTitle,
-        isCompleted: false,
         id: timestamp,
+        isCompleted: true,
         isEditing: false,
       };
       this.$store.dispatch("tasklistModule/addTask", newTask);
       this.taskTitle = "";
+    },
+    checked(task) {
+      this.isChecked = task.id;
     },
     deleteTask(id) {
       this.$store.dispatch("tasklistModule/deleteTask", id);
@@ -122,6 +131,7 @@ export default {
     editTask(task) {
       task.isEditing = true;
       this.afterEdit = task.taskTitle;
+      this.isChecked = task.id;
     },
     doneEdit(task) {
       task.isEditing = false;
