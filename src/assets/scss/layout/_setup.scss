@@ -1,0 +1,33 @@
+.setup {
+  width: 100%;
+  padding: 30px;
+  .setup-font {
+    font-size: $text-xs;
+    color: $color-light;
+  }
+  .setup-input {
+    width: 30%;
+    font-size: $text-xs;
+    margin: 0 20px;
+    padding: 5px 0;
+    background-color: transparent;
+    text-align: center;
+    color: $color-light;
+    border: 1px solid $color-primary;
+    border-radius: 5px;
+  }
+  .setup-btn {
+    width: 12%;
+    height: 30px;
+    background-color: transparent;
+    border: 1px solid $color-primary;
+    color: $color-primary;
+    border-radius: 20px;
+    cursor: pointer;
+    &:hover {
+      background-color: $color-primary;
+      color: $color-light;
+      outline: none;
+    }
+  }
+}
