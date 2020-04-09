@@ -47,7 +47,7 @@
             @click="checked(task)"
             class="ds-inline-block taskList-item-context"
             :class="{ taskCompleted: isCompleted === true }"
-            v-if="!task.isEditing"
+            v-if="isEditing !== task.id"
           >
             {{ task.taskTitle }}
           </p>
@@ -56,8 +56,8 @@
             type="text"
             class="ds-inline-block item-editing"
             :placeholder="task.taskTitle"
-            @blur="cancelEdit(task)"
-            @keyup.esc="cancelEdit(task)"
+            @blur="cancelEdit"
+            @keyup.esc="cancelEdit"
             @keyup.enter="doneEdit(task)"
             v-focus
             v-model="afterEdit"
@@ -86,8 +86,9 @@ export default {
     return {
       taskTitle: "",
       isCompleted: false,
-      afterEdit: "",
       isChecked: "",
+      isEditing: "",
+      afterEdit: "",
     };
   },
   directives: {
@@ -116,8 +117,7 @@ export default {
       const newTask = {
         taskTitle: this.taskTitle,
         id: timestamp,
-        isCompleted: true,
-        isEditing: false,
+        isCompleted: false,
       };
       this.$store.dispatch("tasklistModule/addTask", newTask);
       this.taskTitle = "";
@@ -129,19 +129,18 @@ export default {
       this.$store.dispatch("tasklistModule/deleteTask", id);
     },
     editTask(task) {
-      task.isEditing = true;
+      this.isEditing = task.id;
       this.afterEdit = task.taskTitle;
-      this.isChecked = task.id;
     },
     doneEdit(task) {
-      task.isEditing = false;
+      this.isEditing = "";
       this.$store.dispatch("tasklistModule/editTask", {
         id: task.id,
         afterEdit: this.afterEdit,
       });
     },
-    cancelEdit(task) {
-      task.isEditing = false;
+    cancelEdit() {
+      this.isEditing = "";
     },
     getTaskFromLocal() {
       this.$store.commit("tasklistModule/GETFROMLOCAL");
