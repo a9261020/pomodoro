@@ -27,13 +27,13 @@
     list-style: none;
     height: 2.5em;
     border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+    cursor: pointer;
     .taskList-item-check {
       border: 1px solid $color-primary;
       border-radius: 50%;
       width: 20px;
       height: 20px;
       margin-right: 10px;
-      cursor: pointer;
     }
     .checked {
       background-color: $color-primary;
@@ -44,7 +44,6 @@
       color: $color-light;
       font-weight: 600;
       overflow: hidden;
-      cursor: pointer;
     }
     .item-editing {
       width: 75%;
@@ -66,9 +65,6 @@
     .taskList-item-icon {
       font-size: 22px;
       color: $color-primary;
-      &:hover {
-        cursor: pointer;
-      }
     }
   }
 }

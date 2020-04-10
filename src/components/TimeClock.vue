@@ -2,9 +2,7 @@
   <div class="TimeClock text-center">
     <header class="mb-50">
       <i class="far fa-clock mr-20"></i>
-      <h3 class="ds-inline-block">
-        {{ titleTime }}
-      </h3>
+      <h3 class="ds-inline-block">{{ titleTime }}</h3>
     </header>
     <main>
       {{ this.taskTimer }}
@@ -27,8 +25,9 @@ export default {
         minutes: 0,
         seconds: 0,
         totalSeconds: 0,
-        isStart: false,
+        isStart: false
       },
+      start: ""
     };
   },
   methods: {
@@ -38,17 +37,22 @@ export default {
     startTask() {
       if (!this.taskTimer.isStart) {
         this.taskTimer.isStart = true;
-        setInterval(this.updateTaskTimer, 1000);
+        this.updateTaskTimer();
       } else {
         this.taskTimer.isStart = false;
+        // 計時停止的方法
+        // 參考：https://jd615645.github.io/2017/10/16/Vue.js%E4%B8%AD%E4%BD%BF%E7%94%A8setInterval%E3%80%81clearInterval%E3%80%81clearLnterval%E3%80%81setTimeout/index.html
+        clearInterval(this.start);
       }
     },
     updateTaskTimer() {
-      this.taskTimer.totalSeconds--;
-      this.taskTimer.minutes = Math.floor(this.taskTimer.totalSeconds / 60);
-      this.taskTimer.seconds =
-        this.taskTimer.totalSeconds - this.taskTimer.minutes * 60;
-    },
+      this.start = setInterval(() => {
+        this.taskTimer.totalSeconds--;
+        this.taskTimer.minutes = Math.floor(this.taskTimer.totalSeconds / 60);
+        this.taskTimer.seconds =
+          this.taskTimer.totalSeconds - this.taskTimer.minutes * 60;
+      }, 1000);
+    }
   },
   computed: {
     ...mapGetters("timeModule", ["getWorkTime", "getTotalSeconds"]),
@@ -62,13 +66,12 @@ export default {
       const vm = this;
       vm.taskTimer.totalSeconds = this.getTotalSeconds;
       return vm.taskTimer.totalSeconds;
-    },
+    }
   },
   created() {
-    setInterval(this.updateTaskTimer, 1000);
     setInterval(this.updateTime, 1000);
     this.$store.dispatch("timeModule/setupWorkTime", 25);
     this.taskTimer.totalSeconds = this.getTotalSeconds;
-  },
+  }
 };
 </script>

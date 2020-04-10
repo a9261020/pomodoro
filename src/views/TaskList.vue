@@ -130,6 +130,7 @@ export default {
     },
     editTask(task) {
       this.isEditing = task.id;
+      this.isChecked = task.id;
       this.afterEdit = task.taskTitle;
     },
     doneEdit(task) {
