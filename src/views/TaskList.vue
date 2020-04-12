@@ -129,7 +129,7 @@ export default {
       this.taskTitle = "";
     },
     checked(task) {
-      if (this.getIsStart) {
+      if (this.getIsStart || task.isCompleted) {
         return;
       }
       this.isChecked = task.id;
@@ -142,7 +142,7 @@ export default {
       this.$store.dispatch("tasklistModule/deleteTask", id);
     },
     editTask(task) {
-      if (this.getIsStart) {
+      if (this.getIsStart || task.isCompleted) {
         return;
       }
       this.isEditing = task.id;

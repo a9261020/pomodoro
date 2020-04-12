@@ -12,9 +12,9 @@
       </div>
       <div>
         <p class="setup-font ds-inline-block">Break Time :</p>
-        <input class="setup-input" type="text" />
+        <input class="setup-input" type="text" v-model.number="breakTime" />
         <p class="setup-font ds-inline-block mr-20">Minutes</p>
-        <button class="setup-btn" @click="setupWorkTime">save</button>
+        <button class="setup-btn" @click="setupBreakTime">save</button>
       </div>
     </main>
   </div>
@@ -27,35 +27,31 @@ export default {
   data() {
     return {
       workTime: 0,
-      minutes: 0,
-      seconds: 0,
-      totalSeconds: 0
+      breakTime: 0
     };
   },
   methods: {
     setupWorkTime() {
-      // this.totalSeconds = this.workTime * 60;
       if (this.getIsStart) {
         alert("請先停止工作");
       } else {
         this.$store.dispatch("timeModule/setupWorkTime", this.workTime);
       }
+    },
+    setupBreakTime() {
+      if (this.getIsStart) {
+        alert("請先停止工作");
+      } else {
+        this.$store.dispatch("timeModule/setupBreakTime", this.breakTime);
+      }
     }
-    // updateWorkTime() {
-    //   this.totalSeconds--;
-    //   this.minutes = Math.floor(this.totalSeconds / 60);
-    //   this.seconds = this.totalSeconds - this.minutes * 60;
-    // },
   },
   computed: {
     ...mapGetters("timeModule", ["getIsStart"])
   },
   created() {
-    // this.setupWorkTime();
     this.workTime = this.$store.state.timeModule.workTime;
-    this.minutes = this.workTime;
-    this.seconds = this.workTime * 60;
-    // setInterval(this.updateWorkTime, 1000);
+    this.breakTime = this.$store.state.timeModule.breakTime;
   }
 };
 </script>

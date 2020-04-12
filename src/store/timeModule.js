@@ -2,12 +2,16 @@ const time = {
   namespaced: true,
   state: {
     workTime: 25,
+    breakTime: 5,
     totalSeconds: 1500,
     isStart: false
   },
   actions: {
     setupWorkTime(context, workTime) {
       context.commit("SETUPWORKTIME", workTime);
+    },
+    setupBreakTime(context, BreakTime) {
+      context.commit("SETUPBREAKTIME", BreakTime);
     },
     taskStart(context, isStart) {
       context.commit("TASKSTART", isStart);
@@ -17,6 +21,10 @@ const time = {
     SETUPWORKTIME(state, workTime) {
       state.workTime = workTime;
       state.totalSeconds = workTime * 60;
+    },
+    SETUPBREAKTIME(state, breakTime) {
+      state.breakTime = breakTime;
+      state.totalSeconds = breakTime * 60;
     },
     TASKSTART(state, isStart) {
       state.isStart = isStart;
