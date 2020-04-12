@@ -21,6 +21,8 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   data() {
     return {
@@ -33,13 +35,20 @@ export default {
   methods: {
     setupWorkTime() {
       // this.totalSeconds = this.workTime * 60;
-      this.$store.dispatch("timeModule/setupWorkTime", this.workTime);
+      if (this.getIsStart) {
+        alert("請先停止工作");
+      } else {
+        this.$store.dispatch("timeModule/setupWorkTime", this.workTime);
+      }
     }
     // updateWorkTime() {
     //   this.totalSeconds--;
     //   this.minutes = Math.floor(this.totalSeconds / 60);
     //   this.seconds = this.totalSeconds - this.minutes * 60;
     // },
+  },
+  computed: {
+    ...mapGetters("timeModule", ["getIsStart"])
   },
   created() {
     // this.setupWorkTime();

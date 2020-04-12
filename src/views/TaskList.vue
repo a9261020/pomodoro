@@ -35,6 +35,7 @@
       <ul>
         <li
           class="taskList-item mb-20"
+          :class="{ 'not-working': isChecked !== task.id && getIsStart }"
           v-for="task in filterTasklist"
           :key="task.id"
         >
@@ -88,7 +89,7 @@ export default {
       isCompleted: false,
       isChecked: "",
       isEditing: "",
-      afterEdit: "",
+      afterEdit: ""
     };
   },
   directives: {
@@ -96,39 +97,54 @@ export default {
       // directive definition
       inserted: function(el) {
         el.focus();
-      },
-    },
+      }
+    }
   },
   computed: {
     filterTasklist() {
-      return this.getTasklist.filter((task) => {
+      return this.getTasklist.filter(task => {
         return this.isCompleted ? task.isCompleted : !task.isCompleted;
       });
     },
     ...mapGetters("tasklistModule", ["getTasklist"]),
+    ...mapGetters("timeModule", ["getIsStart"])
   },
   methods: {
     isCompletedBtn() {
       this.isCompleted = !this.isCompleted;
     },
     addTask() {
+      if (this.getIsStart) {
+        alert("請先將工作暫停");
+        return;
+      }
       const dateTime = Date.now();
       const timestamp = Math.floor(dateTime / 1000);
       const newTask = {
         taskTitle: this.taskTitle,
         id: timestamp,
-        isCompleted: false,
+        isCompleted: false
       };
       this.$store.dispatch("tasklistModule/addTask", newTask);
       this.taskTitle = "";
     },
     checked(task) {
+      if (this.getIsStart) {
+        return;
+      }
       this.isChecked = task.id;
+      this.$store.dispatch("tasklistModule/isChecked", task);
     },
     deleteTask(id) {
+      if (this.getIsStart) {
+        return;
+      }
       this.$store.dispatch("tasklistModule/deleteTask", id);
     },
     editTask(task) {
+      if (this.getIsStart) {
+        return;
+      }
       this.isEditing = task.id;
       this.isChecked = task.id;
       this.afterEdit = task.taskTitle;
@@ -137,7 +153,7 @@ export default {
       this.isEditing = "";
       this.$store.dispatch("tasklistModule/editTask", {
         id: task.id,
-        afterEdit: this.afterEdit,
+        afterEdit: this.afterEdit
       });
     },
     cancelEdit() {
@@ -145,10 +161,10 @@ export default {
     },
     getTaskFromLocal() {
       this.$store.commit("tasklistModule/GETFROMLOCAL");
-    },
+    }
   },
   created() {
     this.getTaskFromLocal();
-  },
+  }
 };
 </script>
