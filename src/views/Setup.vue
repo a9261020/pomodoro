@@ -1,9 +1,7 @@
 <template>
   <div class="page">
     <header>
-      <p class="text-left page__title">
-        SET UP
-      </p>
+      <p class="text-left page__title">SET UP</p>
     </header>
     <main class="setup">
       <div class="mb-50">
@@ -26,28 +24,29 @@
 export default {
   data() {
     return {
-      workTime: 25,
+      workTime: 0,
       minutes: 0,
       seconds: 0,
-      totalSeconds: 0,
+      totalSeconds: 0
     };
   },
   methods: {
     setupWorkTime() {
-      this.totalSeconds = this.workTime * 60;
+      // this.totalSeconds = this.workTime * 60;
       this.$store.dispatch("timeModule/setupWorkTime", this.workTime);
-    },
-    updateWorkTime() {
-      this.totalSeconds--;
-      this.minutes = Math.floor(this.totalSeconds / 60);
-      this.seconds = this.totalSeconds - this.minutes * 60;
-    },
+    }
+    // updateWorkTime() {
+    //   this.totalSeconds--;
+    //   this.minutes = Math.floor(this.totalSeconds / 60);
+    //   this.seconds = this.totalSeconds - this.minutes * 60;
+    // },
   },
   created() {
-    this.setupWorkTime();
+    // this.setupWorkTime();
+    this.workTime = this.$store.state.timeModule.workTime;
     this.minutes = this.workTime;
     this.seconds = this.workTime * 60;
-    setInterval(this.updateWorkTime, 1000);
-  },
+    // setInterval(this.updateWorkTime, 1000);
+  }
 };
 </script>

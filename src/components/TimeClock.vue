@@ -61,17 +61,19 @@ export default {
         ? `AM ${this.nowTime.getHours()} : ${this.nowTime.getMinutes()} : ${this.nowTime.getSeconds()}`
         : `PM ${this.nowTime.getHours() -
             12} : ${this.nowTime.getMinutes()} : ${this.nowTime.getSeconds()}`;
-    },
-    getTaskTotalSeconds() {
-      const vm = this;
-      vm.taskTimer.totalSeconds = this.getTotalSeconds;
-      return vm.taskTimer.totalSeconds;
     }
   },
   created() {
     setInterval(this.updateTime, 1000);
     this.$store.dispatch("timeModule/setupWorkTime", 25);
     this.taskTimer.totalSeconds = this.getTotalSeconds;
+  },
+  updated() {
+    if (!this.taskTimer.isStart) {
+      this.taskTimer.totalSeconds = this.getTotalSeconds;
+      this.taskTimer.minutes = this.getWorkTime;
+      this.taskTimer.seconds = 0;
+    }
   }
 };
 </script>
