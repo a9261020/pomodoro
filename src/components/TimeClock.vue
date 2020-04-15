@@ -75,14 +75,9 @@ export default {
     ...mapGetters("tasklistModule", ["getIsChecked"]),
     titleTime() {
       return this.nowTime.getHours <= 12
-        ? `AM ${this.nowTime.getHours()} : ${this.nowTime.getMinutes()} : ${this.nowTime.getSeconds()}`
-        : `PM ${this.nowTime.getHours() -
-            12} : ${this.nowTime.getMinutes()} : ${this.nowTime.getSeconds()}`;
-    },
-    getTaskTotalSeconds() {
-      const vm = this;
-      vm.taskTimer.totalSeconds = this.getTotalSeconds;
-      return vm.taskTimer.totalSeconds;
+        ? `PM ${this.nowTime.getHours() -
+            12} : ${this.nowTime.getMinutes()} : ${this.nowTime.getSeconds()}`
+        : `AM ${this.nowTime.getHours()} : ${this.nowTime.getMinutes()} : ${this.nowTime.getSeconds()}`;
     }
   },
   created() {
@@ -92,11 +87,8 @@ export default {
     this.taskTimer.minutes = this.getWorkTime;
     this.taskTimer.taskTime = this.getWorkTime;
   },
-  updated() {
-    if (
-      !this.taskTimer.isStart &&
-      this.taskTimer.taskTime !== this.getWorkTime
-    ) {
+  watch: {
+    getTotalSeconds() {
       this.taskTimer.taskTime = this.getWorkTime;
       this.taskTimer.totalSeconds = this.getTotalSeconds;
       this.taskTimer.minutes = this.getWorkTime;

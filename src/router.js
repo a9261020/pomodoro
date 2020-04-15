@@ -11,26 +11,30 @@ Vue.use(Router);
 const router = new Router({
   routes: [
     {
+      path: "*",
+      redirect: "/"
+    },
+    {
       path: "/",
       name: "TaskList",
-      component: TaskList,
+      component: TaskList
     },
     {
       path: "/analysis",
       name: "Analysis",
-      component: Analysis,
+      component: Analysis
     },
     {
       path: "/ringtones",
       name: "Ringtones",
-      component: Ringtones,
+      component: Ringtones
     },
     {
       path: "/setup",
       name: "Setup",
-      component: Setup,
-    },
-  ],
+      component: Setup
+    }
+  ]
 });
 
 export default router;
