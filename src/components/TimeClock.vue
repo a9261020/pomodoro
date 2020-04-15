@@ -74,15 +74,25 @@ export default {
     ...mapGetters("timeModule", ["getWorkTime", "getTotalSeconds"]),
     ...mapGetters("tasklistModule", ["getIsChecked"]),
     titleTime() {
-      return this.nowTime.getHours <= 12
-        ? `PM ${this.nowTime.getHours() -
-            12} : ${this.nowTime.getMinutes()} : ${this.nowTime.getSeconds()}`
-        : `AM ${this.nowTime.getHours()} : ${this.nowTime.getMinutes()} : ${this.nowTime.getSeconds()}`;
+      const hours =
+        this.nowTime.getHours() < 10
+          ? `0${this.nowTime.getHours()}`
+          : this.nowTime.getHours();
+      const minutes =
+        this.nowTime.getMinutes() < 10
+          ? `0${this.nowTime.getMinutes()}`
+          : this.nowTime.getMinutes();
+      const seconds =
+        this.nowTime.getSeconds() < 10
+          ? `0${this.nowTime.getSeconds()}`
+          : this.nowTime.getSeconds();
+      return this.nowTime.getHours() <= 12
+        ? `AM ${hours} : ${minutes} : ${seconds}`
+        : `PM ${hours} : ${minutes} : ${seconds}`;
     }
   },
   created() {
     setInterval(this.updateTime, 1000);
-    // this.$store.dispatch("timeModule/setupWorkTime", 25);
     this.taskTimer.totalSeconds = this.getTotalSeconds;
     this.taskTimer.minutes = this.getWorkTime;
     this.taskTimer.taskTime = this.getWorkTime;
