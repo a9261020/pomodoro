@@ -1,13 +1,22 @@
 <template>
   <div class="TimeClock text-center">
-    {{ getIsChecked }}
-    <header class="mb-50">
+    <header class="mb-50 clock">
       <i class="far fa-clock mr-20"></i>
       <h3 class="ds-inline-block">{{ titleTime }}</h3>
     </header>
-    <main>
-      {{ this.taskTimer }}
-      <button @click="startTask">
+    <main class="taskTimer">
+      <h3 class="taskTimer-taskTitle">
+        選擇任務：
+        <p
+          class="ds-inline-block"
+          v-show="Object.keys(this.getIsChecked).length === 0"
+        >
+          無
+        </p>
+        <p class="ds-inline-block">{{ getIsChecked.taskTitle }}</p>
+      </h3>
+      <h3 class="taskTimer-timer">{{ timerMinutes }}:{{ timerSeconds }}</h3>
+      <button class="taskTimer-btn" @click="startTask">
         <p v-if="!taskTimer.isStart">START</p>
         <p v-else>PAUSE</p>
       </button>
@@ -27,9 +36,16 @@ export default {
         minutes: 0,
         seconds: 0,
         totalSeconds: 0,
-        isStart: false
+        isStart: false,
       },
-      start: ""
+      breakTimer: {
+        breakTime: 0,
+        minutes: 0,
+        seconds: 0,
+        totalSeconds: 0,
+        isStart: false,
+      },
+      start: "",
     };
   },
   methods: {
@@ -68,7 +84,7 @@ export default {
         this.taskTimer.seconds =
           this.taskTimer.totalSeconds - this.taskTimer.minutes * 60;
       }, 1000);
-    }
+    },
   },
   computed: {
     ...mapGetters("timeModule", ["getWorkTime", "getTotalSeconds"]),
@@ -88,14 +104,18 @@ export default {
           : this.nowTime.getSeconds();
       return this.nowTime.getHours() <= 12
         ? `AM ${hours} : ${minutes} : ${seconds}`
-        : `PM ${hours} : ${minutes} : ${seconds}`;
-    }
-  },
-  created() {
-    setInterval(this.updateTime, 1000);
-    this.taskTimer.totalSeconds = this.getTotalSeconds;
-    this.taskTimer.minutes = this.getWorkTime;
-    this.taskTimer.taskTime = this.getWorkTime;
+        : `PM ${hours - 12} : ${minutes} : ${seconds}`;
+    },
+    timerSeconds() {
+      return this.taskTimer.seconds < 10
+        ? `0${this.taskTimer.seconds}`
+        : this.taskTimer.seconds;
+    },
+    timerMinutes() {
+      return this.taskTimer.minutes < 10
+        ? `0${this.taskTimer.minutes}`
+        : this.taskTimer.minutes;
+    },
   },
   watch: {
     getTotalSeconds() {
@@ -103,7 +123,14 @@ export default {
       this.taskTimer.totalSeconds = this.getTotalSeconds;
       this.taskTimer.minutes = this.getWorkTime;
       this.taskTimer.seconds = 0;
-    }
-  }
+    },
+  },
+  created() {
+    setInterval(this.updateTime, 1000);
+    // 初始化taskTimer
+    this.taskTimer.totalSeconds = this.getTotalSeconds;
+    this.taskTimer.minutes = this.getWorkTime;
+    this.taskTimer.taskTime = this.getWorkTime;
+  },
 };
 </script>
