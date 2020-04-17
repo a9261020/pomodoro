@@ -11,13 +11,13 @@
         </p>
         <p class="ds-inline-block" v-show="!checkIsNotEmpty">
           {{ getIsChecked.taskTitle }}
-          <span v-show="!checkIsNotEmpty && !taskTimer.isStart">暫停</span>
+          <span v-show="!checkIsNotEmpty && !taskTimer.isStart">暫停中</span>
           <span v-show="!checkIsNotEmpty && taskTimer.isStart">進行中</span>
         </p>
       </h3>
       <h3 class="taskTimer-taskTitle" v-show="taskTimer.totalSeconds === 0">
         <p class="ds-inline-block" v-show="!checkIsNotEmpty">
-          <span v-show="!checkIsNotEmpty && !breakTimer.isStart">暫停</span>
+          <span v-show="!checkIsNotEmpty && !breakTimer.isStart">暫停中</span>
           <span v-show="!checkIsNotEmpty && breakTimer.isStart"
             >請好好的休息</span
           >
@@ -73,6 +73,7 @@ export default {
         isStart: false,
       },
       taskStart: "",
+      breakStart: "",
     };
   },
   methods: {
@@ -86,11 +87,11 @@ export default {
       }
       if (!this.taskTimer.isStart) {
         this.taskTimer.isStart = true;
-        this.$store.dispatch("timeModule/taskStart", true);
+        this.$store.dispatch("timeModule/start", true);
         this.updatetaskTimer();
       } else {
         this.taskTimer.isStart = false;
-        this.$store.dispatch("timeModule/taskStart", false);
+        this.$store.dispatch("timeModule/start", false);
         // 計時停止的方法
         // 參考：https://jd615645.github.io/2017/10/16/Vue.js%E4%B8%AD%E4%BD%BF%E7%94%A8setInterval%E3%80%81clearInterval%E3%80%81clearLnterval%E3%80%81setTimeout/index.html
         clearInterval(this.taskStart);
@@ -103,17 +104,53 @@ export default {
           alert("任務完成");
           clearInterval(this.taskStart);
           this.taskTimer.isStart = false;
-          this.$store.dispatch("timeModule/taskStart", false);
+          this.$store.dispatch("timeModule/start", false);
           this.$store.dispatch("tasklistModule/doneTask", this.getIsChecked.id);
+
+          this.breakTimer.taskTime = this.getBreak.breakTime;
+          this.breakTimer.totalSeconds = this.getBreak.breakTotalSeconds;
+          this.breakTimer.minutes = this.getBreak.breakTime;
+          this.breakTimer.seconds = 0;
+        } else {
+          this.taskTimer.totalSeconds--;
+          this.taskTimer.minutes = Math.floor(this.taskTimer.totalSeconds / 60);
+          this.taskTimer.seconds =
+            this.taskTimer.totalSeconds - this.taskTimer.minutes * 60;
         }
-        this.taskTimer.totalSeconds--;
-        this.taskTimer.minutes = Math.floor(this.taskTimer.totalSeconds / 60);
-        this.taskTimer.seconds =
-          this.taskTimer.totalSeconds - this.taskTimer.minutes * 60;
       }, 1000);
     },
     startBreak() {
-      console.log("Hello");
+      if (!this.breakTimer.isStart) {
+        this.breakTimer.isStart = true;
+        this.$store.dispatch("timeModule/start", true);
+        this.updatebreakTimer();
+      } else {
+        this.breakTimer.isStart = false;
+        this.$store.dispatch("timeModule/start", false);
+        clearInterval(this.breakStart);
+      }
+    },
+    updatebreakTimer() {
+      this.breakStart = setInterval(() => {
+        // 計時完之後會做這件事情
+        if (this.breakTimer.totalSeconds === 0) {
+          clearInterval(this.breakStart);
+          this.breakTimer.isStart = false;
+          this.$store.dispatch("timeModule/start", false);
+
+          this.taskTimer.taskTime = this.getTask.taskTime;
+          this.taskTimer.totalSeconds = this.getTask.taskTotalSeconds;
+          this.taskTimer.minutes = this.getTask.taskTime;
+          this.taskTimer.seconds = 0;
+        } else {
+          this.breakTimer.totalSeconds--;
+          this.breakTimer.minutes = Math.floor(
+            this.breakTimer.totalSeconds / 60
+          );
+          this.breakTimer.seconds =
+            this.breakTimer.totalSeconds - this.breakTimer.minutes * 60;
+        }
+      }, 1000);
     },
   },
   computed: {
@@ -168,6 +205,15 @@ export default {
         this.taskTimer.totalSeconds = this.getTask.taskTotalSeconds;
         this.taskTimer.minutes = this.getTask.taskTime;
         this.taskTimer.seconds = 0;
+      },
+      deep: true,
+    },
+    getBreak: {
+      handler() {
+        this.breakTimer.taskTime = this.getbreak.breakTime;
+        this.breakTimer.totalSeconds = this.getbreak.breakTotalSeconds;
+        this.breakTimer.minutes = this.getbreak.breakTime;
+        this.breakTimer.seconds = 0;
       },
       deep: true,
     },

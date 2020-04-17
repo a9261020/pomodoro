@@ -18,8 +18,8 @@ const time = {
     setupbreakTime(context, breakTime) {
       context.commit("SETUPBREAKTIME", breakTime);
     },
-    taskStart(context, isStart) {
-      context.commit("TASKSTART", isStart);
+    start(context, isStart) {
+      context.commit("START", isStart);
     },
   },
   mutations: {
@@ -31,7 +31,7 @@ const time = {
       state.break.breakTime = breakTime;
       state.break.breakTotalSeconds = breakTime * 60;
     },
-    TASKSTART(state, isStart) {
+    START(state, isStart) {
       state.isStart = isStart;
     },
   },

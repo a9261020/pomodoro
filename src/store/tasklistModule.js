@@ -2,7 +2,7 @@ const tasklist = {
   namespaced: true,
   state: {
     tasklist: [],
-    isChecked: {}
+    isChecked: {},
   },
   actions: {
     addTask(context, task) {
@@ -19,7 +19,7 @@ const tasklist = {
     },
     isChecked(context, isChecked) {
       context.commit("ISCHECKED", isChecked);
-    }
+    },
   },
   mutations: {
     ADDTASK(state, task) {
@@ -31,7 +31,7 @@ const tasklist = {
       localStorage.setItem("tasklist", JSON.stringify(state.tasklist));
     },
     EDITTASK(state, afterEdit) {
-      state.tasklist.forEach(task => {
+      state.tasklist.forEach((task) => {
         if (task.id === afterEdit.id) {
           task.taskTitle = afterEdit.afterEdit;
         }
@@ -39,7 +39,7 @@ const tasklist = {
       localStorage.setItem("tasklist", JSON.stringify(state.tasklist));
     },
     DONETASK(state, id) {
-      state.tasklist.forEach(task => {
+      state.tasklist.forEach((task) => {
         if (task.id === id) {
           task.isCompleted = true;
         }
@@ -54,15 +54,12 @@ const tasklist = {
     },
     ISCHECKED(state, isChecked) {
       state.isChecked = isChecked;
-    }
+    },
   },
   getters: {
-    getTasklist: state => state.tasklist,
-    getIsChecked: state => state.isChecked
-    // getTasklist(state) {
-    //   return state.tasklist;
-    // }
-  }
+    getTasklist: (state) => state.tasklist,
+    getIsChecked: (state) => state.isChecked,
+  },
 };
 
 export default tasklist;
