@@ -5,10 +5,10 @@
     </header>
     <main class="setup">
       <div class="mb-50">
-        <p class="setup-font ds-inline-block">Work Time :</p>
-        <input class="setup-input" type="text" v-model.number="workTime" />
+        <p class="setup-font ds-inline-block">Task Time :</p>
+        <input class="setup-input" type="text" v-model.number="taskTime" />
         <p class="setup-font ds-inline-block mr-20">Minutes</p>
-        <button class="setup-btn" @click="setupWorkTime">save</button>
+        <button class="setup-btn" @click="setuptaskTime">save</button>
       </div>
       <div>
         <p class="setup-font ds-inline-block">Break Time :</p>
@@ -26,32 +26,32 @@ import { mapGetters } from "vuex";
 export default {
   data() {
     return {
-      workTime: 0,
-      breakTime: 0
+      taskTime: 0,
+      breakTime: 0,
     };
   },
   methods: {
-    setupWorkTime() {
+    setuptaskTime() {
       if (this.getIsStart) {
         alert("請先停止工作");
       } else {
-        this.$store.dispatch("timeModule/setupWorkTime", this.workTime);
+        this.$store.dispatch("timeModule/setuptaskTime", this.taskTime);
       }
     },
     setupBreakTime() {
       if (this.getIsStart) {
         alert("請先停止工作");
       } else {
-        this.$store.dispatch("timeModule/setupBreakTime", this.breakTime);
+        this.$store.dispatch("timeModule/setupbreakTime", this.breakTime);
       }
-    }
+    },
   },
   computed: {
-    ...mapGetters("timeModule", ["getIsStart"])
+    ...mapGetters("timeModule", ["getIsStart"]),
   },
   created() {
-    this.workTime = this.$store.state.timeModule.workTime;
-    this.breakTime = this.$store.state.timeModule.breakTime;
-  }
+    this.taskTime = this.$store.state.timeModule.task.taskTime;
+    this.breakTime = this.$store.state.timeModule.break.breakTime;
+  },
 };
 </script>

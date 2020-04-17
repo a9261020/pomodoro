@@ -87,7 +87,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters("timeModule", ["getWorkTime", "getTotalSeconds"]),
+    ...mapGetters("timeModule", ["getTask", "getBreak"]),
     ...mapGetters("tasklistModule", ["getIsChecked"]),
     titleTime() {
       const hours =
@@ -119,18 +119,18 @@ export default {
   },
   watch: {
     getTotalSeconds() {
-      this.taskTimer.taskTime = this.getWorkTime;
-      this.taskTimer.totalSeconds = this.getTotalSeconds;
-      this.taskTimer.minutes = this.getWorkTime;
+      this.taskTimer.taskTime = this.getTask.taskTime;
+      this.taskTimer.totalSeconds = this.getTask.taskTotalSeconds;
+      this.taskTimer.minutes = this.getTask.taskTime;
       this.taskTimer.seconds = 0;
     },
   },
   created() {
     setInterval(this.updateTime, 1000);
     // 初始化taskTimer
-    this.taskTimer.totalSeconds = this.getTotalSeconds;
-    this.taskTimer.minutes = this.getWorkTime;
-    this.taskTimer.taskTime = this.getWorkTime;
+    this.taskTimer.totalSeconds = this.getTask.taskTotalSeconds;
+    this.taskTimer.minutes = this.getTask.taskTime;
+    this.taskTimer.taskTime = this.getTask.taskTime;
   },
 };
 </script>

@@ -1,40 +1,45 @@
 const time = {
   namespaced: true,
   state: {
-    workTime: 25,
-    breakTime: 5,
-    totalSeconds: 1500,
-    isStart: false
+    task: {
+      taskTime: 25,
+      taskTotalSeconds: 1500,
+    },
+    break: {
+      breakTime: 5,
+      breakTotalSeconds: 1500,
+    },
+    isStart: false,
   },
   actions: {
-    setupWorkTime(context, workTime) {
-      context.commit("SETUPWORKTIME", workTime);
+    setuptaskTime(context, taskTime) {
+      context.commit("SETUPTASKTIME", taskTime);
     },
-    setupBreakTime(context, BreakTime) {
-      context.commit("SETUPBREAKTIME", BreakTime);
+    setupbreakTime(context, breakTime) {
+      context.commit("SETUPBREAKTIME", breakTime);
     },
     taskStart(context, isStart) {
       context.commit("TASKSTART", isStart);
-    }
+    },
   },
   mutations: {
-    SETUPWORKTIME(state, workTime) {
-      state.workTime = workTime;
-      state.totalSeconds = workTime * 60;
+    SETUPTASKTIME(state, taskTime) {
+      state.task.taskTime = taskTime;
+      state.task.taskTotalSeconds = taskTime * 60;
     },
     SETUPBREAKTIME(state, breakTime) {
-      state.breakTime = breakTime;
-      state.totalSeconds = breakTime * 60;
+      state.break.breakTime = breakTime;
+      state.break.breakTotalSeconds = breakTime * 60;
     },
     TASKSTART(state, isStart) {
       state.isStart = isStart;
-    }
+    },
   },
   getters: {
-    getWorkTime: state => state.workTime,
-    getTotalSeconds: state => state.totalSeconds,
-    getIsStart: state => state.isStart
-  }
+    getTask: (state) => state.task,
+    getBreak: (state) => state.break,
+    getIsStart: (state) => state.isStart,
+  },
 };
 
 export default time;
