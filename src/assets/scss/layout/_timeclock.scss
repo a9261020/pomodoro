@@ -1,5 +1,5 @@
 .TimeClock {
-  position: absolute;
+  position: fixed;
   top: 0;
   right: 0;
   width: 45%;
@@ -9,7 +9,6 @@
     color: $color-primary;
     font-size: 40px;
   }
-
   .taskTimer {
     display: flex;
     flex-direction: column;
