@@ -33,15 +33,17 @@ export default {
   methods: {
     setuptaskTime() {
       if (this.getIsStart) {
-        alert("請先停止工作");
+        this.$store.dispatch("alertModule/showMessage", "請先停止工作");
       } else {
+        this.$store.dispatch("alertModule/showMessage", "修改成功");
         this.$store.dispatch("timeModule/setuptaskTime", this.taskTime);
       }
     },
     setupBreakTime() {
       if (this.getIsStart) {
-        alert("請先停止工作");
+        this.$store.dispatch("alertModule/showMessage", "請先停止工作");
       } else {
+        this.$store.dispatch("alertModule/showMessage", "修改成功");
         this.$store.dispatch("timeModule/setupbreakTime", this.breakTime);
       }
     },

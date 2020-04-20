@@ -3,9 +3,23 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 75%;
+  width: 50%;
   height: 30%;
   background-color: $color-dark2;
+  color: $color-light;
   border: 2px solid $color-primary;
   z-index: 99;
+  padding: 100px;
+  font-size: $text-sm;
+  letter-spacing: 5px;
+  .alert-cancel-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: $text-sm;
+    cursor: pointer;
+    &:hover {
+      color: $color-primary;
+    }
+  }
 }

@@ -80,7 +80,7 @@ export default {
     },
     startTask() {
       if (Object.keys(this.getIsChecked).length === 0) {
-        alert("請先選擇任務");
+        this.$store.dispatch("alertModule/showMessage", "請先選擇任務");
         return;
       }
       if (!this.taskTimer.isStart) {
@@ -99,7 +99,7 @@ export default {
       this.taskStart = setInterval(() => {
         // 計時完之後會做這件事情
         if (this.taskTimer.totalSeconds === 0) {
-          alert("任務完成");
+          this.$store.dispatch("alertModule/showMessage", "任務完成");
           clearInterval(this.taskStart);
           this.taskTimer.isStart = false;
           this.$store.dispatch("timeModule/start", false);
@@ -133,7 +133,7 @@ export default {
       this.breakStart = setInterval(() => {
         // 計時完之後會做這件事情
         if (this.breakTimer.totalSeconds === 0) {
-          alert("休息時間結束");
+          this.$store.dispatch("alertModule/showMessage", "休息時間結束");
           clearInterval(this.breakStart);
           this.breakTimer.isStart = false;
           this.$store.dispatch("timeModule/start", false);
