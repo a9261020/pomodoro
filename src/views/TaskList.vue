@@ -7,16 +7,12 @@
           class="btn ml-50 border-radius"
           :class="{ 'btn-active': isCompleted === false }"
           @click="isCompletedBtn"
-        >
-          undone
-        </button>
+        >undone</button>
         <button
           class="btn ml-10 border-radius"
           :class="{ 'btn-active': isCompleted === true }"
           @click="isCompletedBtn"
-        >
-          completed
-        </button>
+        >completed</button>
       </p>
     </header>
     <!-- main -->
@@ -49,9 +45,7 @@
             class="ds-inline-block taskList-item-context"
             :class="{ taskCompleted: isCompleted === true }"
             v-if="isEditing !== task.id"
-          >
-            {{ task.taskTitle }}
-          </p>
+          >{{ task.taskTitle }}</p>
 
           <input
             type="text"
@@ -65,14 +59,8 @@
             v-else
           />
 
-          <i
-            class="taskList-item-icon fas fa-edit ml-20"
-            @click="editTask(task)"
-          ></i>
-          <i
-            class="taskList-item-icon fas fa-trash-alt ml-20"
-            @click="deleteTask(task.id)"
-          ></i>
+          <i class="taskList-item-icon fas fa-edit ml-20" @click="editTask(task)"></i>
+          <i class="taskList-item-icon fas fa-trash-alt ml-20" @click="deleteTask(task.id)"></i>
         </li>
       </ul>
     </main>
@@ -83,13 +71,14 @@
 import { mapGetters } from "vuex";
 
 export default {
+  name: "TaskList",
   data() {
     return {
       taskTitle: "",
       isCompleted: false,
       isChecked: "",
       isEditing: "",
-      afterEdit: "",
+      afterEdit: ""
     };
   },
   directives: {
@@ -97,17 +86,17 @@ export default {
       // directive definition
       inserted: function(el) {
         el.focus();
-      },
-    },
+      }
+    }
   },
   computed: {
     filterTasklist() {
-      return this.getTasklist.filter((task) => {
+      return this.getTasklist.filter(task => {
         return this.isCompleted ? task.isCompleted : !task.isCompleted;
       });
     },
     ...mapGetters("tasklistModule", ["getTasklist"]),
-    ...mapGetters("timeModule", ["getIsStart"]),
+    ...mapGetters("timeModule", ["getIsStart"])
   },
   methods: {
     isCompletedBtn() {
@@ -128,7 +117,7 @@ export default {
       const newTask = {
         taskTitle: this.taskTitle,
         id: timestamp,
-        isCompleted: false,
+        isCompleted: false
       };
       this.$store.dispatch("tasklistModule/addTask", newTask);
       this.taskTitle = "";
@@ -158,7 +147,7 @@ export default {
       this.isEditing = "";
       this.$store.dispatch("tasklistModule/editTask", {
         id: task.id,
-        afterEdit: this.afterEdit,
+        afterEdit: this.afterEdit
       });
     },
     cancelEdit() {
@@ -166,10 +155,10 @@ export default {
     },
     getTaskFromLocal() {
       this.$store.commit("tasklistModule/GETFROMLOCAL");
-    },
+    }
   },
   created() {
     this.getTaskFromLocal();
-  },
+  }
 };
 </script>

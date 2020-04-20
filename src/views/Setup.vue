@@ -27,7 +27,7 @@ export default {
   data() {
     return {
       taskTime: 0,
-      breakTime: 0,
+      breakTime: 0
     };
   },
   methods: {
@@ -44,14 +44,14 @@ export default {
       } else {
         this.$store.dispatch("timeModule/setupbreakTime", this.breakTime);
       }
-    },
+    }
   },
   computed: {
-    ...mapGetters("timeModule", ["getIsStart"]),
+    ...mapGetters("timeModule", ["getIsStart"])
   },
   created() {
     this.taskTime = this.$store.state.timeModule.task.taskTime;
     this.breakTime = this.$store.state.timeModule.break.breakTime;
-  },
+  }
 };
 </script>

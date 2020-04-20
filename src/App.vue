@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <Navbar />
-    <router-view />
+    <keep-alive include="TaskList">
+      <router-view />
+    </keep-alive>
     <TimeClock />
   </div>
 </template>

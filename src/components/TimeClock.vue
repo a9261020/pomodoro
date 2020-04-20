@@ -6,9 +6,7 @@
     </header>
     <main class="taskTimer">
       <h3 class="taskTimer-taskTitle" v-show="taskTimer.totalSeconds !== 0">
-        <p class="ds-inline-block" v-show="checkIsNotEmpty">
-          尚未選擇任務
-        </p>
+        <p class="ds-inline-block" v-show="checkIsNotEmpty">尚未選擇任務</p>
         <p class="ds-inline-block" v-show="!checkIsNotEmpty">
           {{ getIsChecked.taskTitle }}
           <span v-show="!checkIsNotEmpty && !taskTimer.isStart">暫停中</span>
@@ -18,32 +16,18 @@
       <h3 class="taskTimer-taskTitle" v-show="taskTimer.totalSeconds === 0">
         <p class="ds-inline-block" v-show="!checkIsNotEmpty">
           <span v-show="!checkIsNotEmpty && !breakTimer.isStart">暫停中</span>
-          <span v-show="!checkIsNotEmpty && breakTimer.isStart"
-            >請好好的休息</span
-          >
+          <span v-show="!checkIsNotEmpty && breakTimer.isStart">請好好的休息</span>
         </p>
       </h3>
       <h3 class="taskTimer-timer">
-        <p v-show="taskTimer.totalSeconds !== 0">
-          {{ taskTimerMinutes }}:{{ taskTimerSeconds }}
-        </p>
-        <p v-show="taskTimer.totalSeconds === 0">
-          {{ breakTimerMinutes }}:{{ breakTimerSeconds }}
-        </p>
+        <p v-show="taskTimer.totalSeconds !== 0">{{ taskTimerMinutes }}:{{ taskTimerSeconds }}</p>
+        <p v-show="taskTimer.totalSeconds === 0">{{ breakTimerMinutes }}:{{ breakTimerSeconds }}</p>
       </h3>
-      <button
-        class="taskTimer-btn"
-        @click="startTask"
-        v-show="taskTimer.totalSeconds !== 0"
-      >
+      <button class="taskTimer-btn" @click="startTask" v-show="taskTimer.totalSeconds !== 0">
         <p v-show="!taskTimer.isStart">START</p>
         <p v-show="taskTimer.isStart">PAUSE</p>
       </button>
-      <button
-        class="taskTimer-btn"
-        @click="startBreak"
-        v-show="taskTimer.totalSeconds === 0"
-      >
+      <button class="taskTimer-btn" @click="startBreak" v-show="taskTimer.totalSeconds === 0">
         <p v-show="!breakTimer.isStart">START</p>
         <p v-show="breakTimer.isStart">PAUSE</p>
       </button>
@@ -63,17 +47,17 @@ export default {
         minutes: 0,
         seconds: 0,
         totalSeconds: 0,
-        isStart: false,
+        isStart: false
       },
       breakTimer: {
         breakTime: 0,
         minutes: 0,
         seconds: 0,
         totalSeconds: 0,
-        isStart: false,
+        isStart: false
       },
       taskStart: "",
-      breakStart: "",
+      breakStart: ""
     };
   },
   methods: {
@@ -106,6 +90,7 @@ export default {
           this.taskTimer.isStart = false;
           this.$store.dispatch("timeModule/start", false);
           this.$store.dispatch("tasklistModule/doneTask", this.getIsChecked.id);
+          this.$store.dispatch("tasklistModule/isChecked", {});
 
           this.breakTimer.taskTime = this.getBreak.breakTime;
           this.breakTimer.totalSeconds = this.getBreak.breakTotalSeconds;
@@ -151,7 +136,7 @@ export default {
             this.breakTimer.totalSeconds - this.breakTimer.minutes * 60;
         }
       }, 1000);
-    },
+    }
   },
   computed: {
     ...mapGetters("timeModule", ["getTask", "getBreak"]),
@@ -195,7 +180,7 @@ export default {
     },
     checkIsNotEmpty() {
       return Object.keys(this.getIsChecked).length === 0;
-    },
+    }
   },
   watch: {
     getTask: {
@@ -206,17 +191,17 @@ export default {
         this.taskTimer.minutes = this.getTask.taskTime;
         this.taskTimer.seconds = 0;
       },
-      deep: true,
+      deep: true
     },
     getBreak: {
       handler() {
-        this.breakTimer.taskTime = this.getbreak.breakTime;
-        this.breakTimer.totalSeconds = this.getbreak.breakTotalSeconds;
-        this.breakTimer.minutes = this.getbreak.breakTime;
+        this.breakTimer.breakTime = this.getBreak.breakTime;
+        this.breakTimer.totalSeconds = this.getBreak.breakTotalSeconds;
+        this.breakTimer.minutes = this.getBreak.breakTime;
         this.breakTimer.seconds = 0;
       },
-      deep: true,
-    },
+      deep: true
+    }
   },
   created() {
     setInterval(this.updateTime, 1000);
@@ -228,6 +213,6 @@ export default {
     this.breakTimer.breakTime = this.getBreak.breakTime;
     this.breakTimer.totalSeconds = this.getBreak.breakTotalSeconds;
     this.breakTimer.minutes = this.getBreak.breakTime;
-  },
+  }
 };
 </script>
