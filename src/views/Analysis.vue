@@ -1,5 +1,9 @@
 <template>
-  <div class="page">Analysis.vue</div>
+  <div class="page">
+    <header>
+      <p class="text-left page__title">ANALYSIS</p>
+    </header>
+  </div>
 </template>
 
 <script>

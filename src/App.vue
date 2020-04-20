@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <Alert />
     <Navbar />
     <keep-alive include="TaskList">
       <router-view />
@@ -11,13 +12,15 @@
 <script>
 import Navbar from "@/components/Navbar";
 import TimeClock from "@/components/TimeClock";
+import Alert from "@/components/Alert";
 
 export default {
   name: "App",
   components: {
     Navbar,
-    TimeClock
-  }
+    TimeClock,
+    Alert,
+  },
 };
 </script>
 

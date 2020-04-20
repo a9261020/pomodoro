@@ -1,0 +1,11 @@
+.alert {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 75%;
+  height: 30%;
+  background-color: $color-dark2;
+  border: 2px solid $color-primary;
+  z-index: 99;
+}

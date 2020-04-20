@@ -1,5 +1,9 @@
 <template>
-  <div class="page">Ringtones.vue</div>
+  <div class="page">
+    <header>
+      <p class="text-left page__title">RINGTONES</p>
+    </header>
+  </div>
 </template>
 
 <script>
