@@ -14,20 +14,34 @@
         </p>
       </h3>
       <h3 class="taskTimer-taskTitle" v-show="taskTimer.totalSeconds === 0">
-        <p class="ds-inline-block" v-show="!checkIsNotEmpty">
-          <span v-show="!checkIsNotEmpty && !breakTimer.isStart">暫停中</span>
-          <span v-show="!checkIsNotEmpty && breakTimer.isStart">請好好的休息</span>
+        <p class="ds-inline-block" v-show="checkIsNotEmpty">
+          <span v-show="checkIsNotEmpty && !breakTimer.isStart">休息暫停</span>
+          <span v-show="checkIsNotEmpty && breakTimer.isStart"
+            >請好好的休息</span
+          >
         </p>
       </h3>
       <h3 class="taskTimer-timer">
-        <p v-show="taskTimer.totalSeconds !== 0">{{ taskTimerMinutes }}:{{ taskTimerSeconds }}</p>
-        <p v-show="taskTimer.totalSeconds === 0">{{ breakTimerMinutes }}:{{ breakTimerSeconds }}</p>
+        <p v-show="taskTimer.totalSeconds !== 0">
+          {{ taskTimerMinutes }}:{{ taskTimerSeconds }}
+        </p>
+        <p v-show="taskTimer.totalSeconds === 0">
+          {{ breakTimerMinutes }}:{{ breakTimerSeconds }}
+        </p>
       </h3>
-      <button class="taskTimer-btn" @click="startTask" v-show="taskTimer.totalSeconds !== 0">
+      <button
+        class="taskTimer-btn"
+        @click="startTask"
+        v-show="taskTimer.totalSeconds !== 0"
+      >
         <p v-show="!taskTimer.isStart">START</p>
         <p v-show="taskTimer.isStart">PAUSE</p>
       </button>
-      <button class="taskTimer-btn" @click="startBreak" v-show="taskTimer.totalSeconds === 0">
+      <button
+        class="taskTimer-btn"
+        @click="startBreak"
+        v-show="taskTimer.totalSeconds === 0"
+      >
         <p v-show="!breakTimer.isStart">START</p>
         <p v-show="breakTimer.isStart">PAUSE</p>
       </button>
@@ -47,17 +61,17 @@ export default {
         minutes: 0,
         seconds: 0,
         totalSeconds: 0,
-        isStart: false
+        isStart: false,
       },
       breakTimer: {
         breakTime: 0,
         minutes: 0,
         seconds: 0,
         totalSeconds: 0,
-        isStart: false
+        isStart: false,
       },
       taskStart: "",
-      breakStart: ""
+      breakStart: "",
     };
   },
   methods: {
@@ -119,6 +133,7 @@ export default {
       this.breakStart = setInterval(() => {
         // 計時完之後會做這件事情
         if (this.breakTimer.totalSeconds === 0) {
+          alert("休息時間結束");
           clearInterval(this.breakStart);
           this.breakTimer.isStart = false;
           this.$store.dispatch("timeModule/start", false);
@@ -136,7 +151,7 @@ export default {
             this.breakTimer.totalSeconds - this.breakTimer.minutes * 60;
         }
       }, 1000);
-    }
+    },
   },
   computed: {
     ...mapGetters("timeModule", ["getTask", "getBreak"]),
@@ -180,7 +195,7 @@ export default {
     },
     checkIsNotEmpty() {
       return Object.keys(this.getIsChecked).length === 0;
-    }
+    },
   },
   watch: {
     getTask: {
@@ -191,7 +206,7 @@ export default {
         this.taskTimer.minutes = this.getTask.taskTime;
         this.taskTimer.seconds = 0;
       },
-      deep: true
+      deep: true,
     },
     getBreak: {
       handler() {
@@ -200,8 +215,8 @@ export default {
         this.breakTimer.minutes = this.getBreak.breakTime;
         this.breakTimer.seconds = 0;
       },
-      deep: true
-    }
+      deep: true,
+    },
   },
   created() {
     setInterval(this.updateTime, 1000);
@@ -213,6 +228,6 @@ export default {
     this.breakTimer.breakTime = this.getBreak.breakTime;
     this.breakTimer.totalSeconds = this.getBreak.breakTotalSeconds;
     this.breakTimer.minutes = this.getBreak.breakTime;
-  }
+  },
 };
 </script>
