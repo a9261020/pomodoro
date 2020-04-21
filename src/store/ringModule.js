@@ -13,7 +13,6 @@ const ring = {
   },
   mutations: {
     SELECT_RING(state, ring) {
-      console.log(ring);
       state.selected = ring;
     },
   },
