@@ -2,12 +2,14 @@ const ring = {
   namespaced: true,
   state: {
     selected: {
-      name: "from ringModule name",
-      id: "id",
+      name: "",
+      id: "",
     },
   },
   actions: {
     selectRing(context, ring) {
+      if (localStorage.getItem("ring") === null) return;
+      ring = JSON.parse(localStorage.getItem("ring"));
       context.commit("SELECT_RING", ring);
     },
   },

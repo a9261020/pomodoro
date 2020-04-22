@@ -46,6 +46,47 @@
         <p v-show="breakTimer.isStart">PAUSE</p>
       </button>
     </main>
+
+    <audio
+      @timeupdate="onTimeupdate"
+      ref="audio-0"
+      src="../assets/ring/default.mp3"
+    ></audio>
+    <audio
+      @timeupdate="onTimeupdate"
+      ref="audio-1"
+      src="../assets/ring/bell.mp3"
+    ></audio>
+    <audio
+      @timeupdate="onTimeupdate"
+      ref="audio-2"
+      src="../assets/ring/birds.mp3"
+    ></audio>
+    <audio
+      @timeupdate="onTimeupdate"
+      ref="audio-3"
+      src="../assets/ring/classic.mp3"
+    ></audio>
+    <audio
+      @timeupdate="onTimeupdate"
+      ref="audio-4"
+      src="../assets/ring/opening.mp3"
+    ></audio>
+    <audio
+      @timeupdate="onTimeupdate"
+      ref="audio-5"
+      src="../assets/ring/whatFlash.mp3"
+    ></audio>
+    <audio
+      @timeupdate="onTimeupdate"
+      ref="audio-6"
+      src="../assets/ring/alert.mp3"
+    ></audio>
+    <audio
+      @timeupdate="onTimeupdate"
+      ref="audio-7"
+      src="../assets/ring/warning.mp3"
+    ></audio>
   </div>
 </template>
 
@@ -75,6 +116,11 @@ export default {
     };
   },
   methods: {
+    onTimeupdate(evt) {
+      if (evt.target.currentTime >= 5) {
+        this.$refs[`${this.getSelected.id}`].pause();
+      }
+    },
     updateTime() {
       this.nowTime = new Date();
     },
@@ -99,9 +145,10 @@ export default {
       this.taskStart = setInterval(() => {
         // 計時完之後會做這件事情
         if (this.taskTimer.totalSeconds === 0) {
-          this.$store.dispatch("alertModule/showMessage", "任務完成");
           clearInterval(this.taskStart);
           this.taskTimer.isStart = false;
+          this.$refs[`${this.getSelected.id}`].play();
+          this.$store.dispatch("alertModule/showMessage", "任務完成");
           this.$store.dispatch("timeModule/start", false);
           this.$store.dispatch("tasklistModule/doneTask", this.getIsChecked.id);
           this.$store.dispatch("tasklistModule/isChecked", {});
@@ -133,9 +180,10 @@ export default {
       this.breakStart = setInterval(() => {
         // 計時完之後會做這件事情
         if (this.breakTimer.totalSeconds === 0) {
-          this.$store.dispatch("alertModule/showMessage", "休息時間結束");
           clearInterval(this.breakStart);
+          this.$refs[`${this.getSelected.id}`].play();
           this.breakTimer.isStart = false;
+          this.$store.dispatch("alertModule/showMessage", "休息時間結束");
           this.$store.dispatch("timeModule/start", false);
 
           this.taskTimer.taskTime = this.getTask.taskTime;
@@ -154,6 +202,7 @@ export default {
     },
   },
   computed: {
+    ...mapGetters("ringModule", ["getSelected"]),
     ...mapGetters("timeModule", ["getTask", "getBreak"]),
     ...mapGetters("tasklistModule", ["getIsChecked"]),
     titleTime() {
@@ -228,6 +277,8 @@ export default {
     this.breakTimer.breakTime = this.getBreak.breakTime;
     this.breakTimer.totalSeconds = this.getBreak.breakTotalSeconds;
     this.breakTimer.minutes = this.getBreak.breakTime;
+    // 初始化鈴聲
+    this.$store.dispatch("ringModule/selectRing");
   },
 };
 </script>
