@@ -21,6 +21,9 @@ export default {
     TimeClock,
     Alert,
   },
+  created() {
+    this.$store.dispatch("getDate");
+  },
 };
 </script>
 
