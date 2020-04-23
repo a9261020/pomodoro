@@ -38,15 +38,43 @@ export default {
   },
   methods: {
     changeDate(operator) {
-      this.date.day = operator === "+" ? this.date.day + 7 : this.date.day - 7;
+      if (operator === "+") {
+        this.date.day += 7;
+        if (this.date.day > this.monthDay) {
+          this.date.day -= this.monthDay;
+          this.date.month++;
+        }
+      } else {
+        this.date.day -= 7;
+        if (this.date.day + (6 - this.date.week) <= 0) {
+          this.date.month--;
+          this.date.day = this.monthDay + this.date.day;
+        }
+      }
     },
   },
   computed: {
     firstDayOfWeek() {
-      return this.date.day - this.date.week;
+      let firstDay = this.date.day - this.date.week;
+      if (firstDay <= 0) {
+        firstDay += this.lastMonthDay;
+      }
+      return firstDay;
     },
     lastDayOfWeek() {
-      return this.date.day + (6 - this.date.week);
+      let lastDay = this.date.day + (6 - this.date.week);
+      if (lastDay > this.monthDay) {
+        lastDay -= this.monthDay;
+      }
+      return lastDay;
+    },
+    lastMonthDay() {
+      const months = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+      return months[this.date.month];
+    },
+    monthDay() {
+      const months = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+      return months[this.date.month - 1];
     },
   },
 };
