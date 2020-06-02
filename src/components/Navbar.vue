@@ -8,14 +8,14 @@
     >
       <i class="fas fa-align-left"></i>
     </router-link>
-    <router-link
+    <!-- <router-link
       class="text-center border-circle ds-inline-block mt-30"
       :class="{ 'nav-active': status === 'Analysis' }"
       to="/analysis"
       @click.native="changePage('Analysis')"
     >
       <i class="fas fa-chart-line"></i>
-    </router-link>
+    </router-link>-->
     <router-link
       class="text-center border-circle ds-inline-block mt-30"
       :class="{ 'nav-active': status === 'Ringtones' }"
